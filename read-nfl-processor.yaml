@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: nfl-processor
+  name: read-nfl-processor
+spec:
+  containers:
+  - image: edswarchitect/nfl-data-playground:latest
+    name: read-nfl-processor
+    command: ["/usr/local/ekb/go-nfl-process"]
+    args: ["-bootstrap-server", "kafka-svc:9092", "-dir", "/data", "-verbose=true", "-weeks-topic", "nfl.weeks", "-plays-topic", "nfl.plays", "-games-topic", "nfl.games", "-reader-only=true"]
+    ports:
+    - containerPort: 18080
+      protocol: TCP
+      name: metrics
+    volumeMounts:
+      - mountPath: /data
+        name: data-vol
+  volumes:
+    - name: data-vol
+      hostPath:
+          path: /host/resources
+          type: DirectoryOrCreate
