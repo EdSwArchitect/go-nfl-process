@@ -185,12 +185,24 @@ spec:
     name: metrics
     targetPort: 18080
     protocol: TCP
+  selector:
+    app: nfl-processor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: read-nfl-processor
+  labels:
+    app: read-nfl-processor
+spec:
+  type: NodePort
+  ports:
   - port: 19080
     name: metrics
     targetPort: 19080
     protocol: TCP
   selector:
-    app: nfl-processor
+    app: read-nfl-processor
 ---
 apiVersion: v1
 kind: Service

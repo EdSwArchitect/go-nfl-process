@@ -15,10 +15,9 @@ spec:
       protocol: TCP
       name: metrics
     volumeMounts:
-      - mountPath: /data
-        name: data-vol
+      - name: data-vol
+        mountPath: /data
   volumes:
     - name: data-vol
-      hostPath:
-          path: /host/resources
-          type: DirectoryOrCreate
+      configMap:
+        name: resources
