@@ -17,6 +17,19 @@ spec:
     volumeMounts:
       - name: data-vol
         mountPath: /data
+    env:
+      - name: POD_NAME
+        valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+      - name: NODE_NAME
+        valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+      - name: POD_IP
+        valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
   volumes:
     - name: data-vol
       configMap:

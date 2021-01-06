@@ -171,10 +171,26 @@ func catcher(signals <-chan os.Signal) {
 func main() {
 	log.Printf("Main executing")
 
+	/*
+			      - name: POD_NAME
+		        valueFrom:
+		            fieldRef:
+		              fieldPath: metadata.name
+		      - name: NODE_NAME
+		        valueFrom:
+		            fieldRef:
+		              fieldPath: spec.nodeName
+		      - name: POD_IP
+	*/
+
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, os.Interrupt)
 
 	go catcher(signals)
+
+	log.Printf("**** POD_NAME: '%s'\n", os.Getenv("POD_NAME"))
+	log.Printf("**** NODE_NAME: '%s'\n", os.Getenv("NODE_NAME"))
+	log.Printf("**** POD_IP: %s\n", os.Getenv("POD_IP"))
 
 	hostName, err := os.Hostname()
 
